@@ -5,11 +5,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+
+POSSIBLE_RESULTS = [1, 2, 3, 4, 5]
+
+
 app = FastAPI(
-    title="Two-Sided Dice API",
+    title="Dice Selection API",
     version="1.0.0",
-    description="API that generates only 1 or 2."
+    description="API that generates a random value from 1 to 5."
 )
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,10 +34,10 @@ class SpinResponse(BaseModel):
 @app.get("/")
 def root():
     return {
-        "service": "two-sided-dice-api",
+        "service": "dice-selection-api",
         "version": "1.0.0",
         "status": "running",
-        "possible_results": [1, 2],
+        "possible_results": POSSIBLE_RESULTS,
     }
 
 
@@ -40,15 +45,14 @@ def root():
 def health():
     return {
         "status": "healthy",
-        "service": "two-sided-dice-api",
+        "service": "dice-selection-api",
     }
 
 
 @app.post("/api/spin", response_model=SpinResponse)
 def spin():
-    # IMPORTANT: this is deliberately a two-sided dice.
-    # The only possible values are 1 and 2.
-    result = random.choice([1, 2])
+    # Generate a random value from 1 to 5.
+    result = random.choice(POSSIBLE_RESULTS)
 
     return SpinResponse(
         result=result,

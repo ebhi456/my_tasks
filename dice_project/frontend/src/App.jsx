@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const API = "/api";
+const POSSIBLE_VALUES = [1, 2, 3, 4, 5];
 
 function App() {
   const [value, setValue] = useState(1);
@@ -44,9 +45,9 @@ function App() {
     <div className="page">
       <header className="header">
         <div className="brand">
-          <div className="brand-icon">2</div>
+          <div className="brand-icon">5</div>
           <div>
-            <div className="brand-title">TWO-SIDED DICE</div>
+            <div className="brand-title">DICE SELECTION</div>
             <div className="brand-caption">Decision Utility Platform</div>
           </div>
         </div>
@@ -60,10 +61,17 @@ function App() {
       <main className="main">
         <section className="intro">
           <div className="eyebrow">CONTROLLED RANDOM SELECTION</div>
-          <h1>Spin.<br /><em>Select.</em></h1>
+
+          <h1>
+            Spin.
+            <br />
+            <em>Select.</em>
+          </h1>
+
           <p>
-            A two-sided dice engine designed to return exactly one of two
-            possible values: <strong>1</strong> or <strong>2</strong>.
+            A dice selection engine designed to return exactly one of five
+            possible values: <strong>1</strong>, <strong>2</strong>,{" "}
+            <strong>3</strong>, <strong>4</strong>, or <strong>5</strong>.
           </p>
         </section>
 
@@ -106,22 +114,29 @@ function App() {
         <section className="possible">
           <div>
             <span className="result-label">POSSIBLE VALUES</span>
-            <strong>Only 1 or 2</strong>
+            <strong>1 through 5</strong>
           </div>
 
           <div className="values">
-            <div className={value === 1 && !rolling ? "active" : ""}>1</div>
-            <div className={value === 2 && !rolling ? "active" : ""}>2</div>
+            {POSSIBLE_VALUES.map((number) => (
+              <div
+                key={number}
+                className={value === number && !rolling ? "active" : ""}
+              >
+                {number}
+              </div>
+            ))}
           </div>
 
           <div className="counter">
-            SPINS<br />
+            SPINS
+            <br />
             <strong>{spinCount}</strong>
           </div>
         </section>
 
         <footer>
-          <span>Two-Sided Dice v1.0.0</span>
+          <span>Dice Selection v1.0.0</span>
           <span>API · FastAPI · Docker</span>
         </footer>
       </main>
